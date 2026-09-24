@@ -17,6 +17,7 @@ let notes = load("teacher-notes", [
   { id: 1, title: "Inför nästa vecka", text: "Kopiera mattehäftena och planera laborationen." },
   { id: 2, title: "Kom ihåg", text: "Skicka veckobrevet senast torsdag eftermiddag." },
 ]);
+notes = notes.map((note) => ({ ...note, done: Boolean(note.done) }));
 let scheduleObjectUrl = "";
 let week = startWeek(new Date());
 
@@ -178,7 +179,7 @@ function renderWeek() {
 }
 
 function renderNotes() {
-  $("#notes").innerHTML = notes.map((note) => `<article class="note"><div><b>${escapeHtml(note.title)}</b><button data-delete-note="${note.id}">×</button></div><p>${escapeHtml(note.text)}</p></article>`).join("");
+  $("#notes").innerHTML = notes.map((note) => `<article class="note ${note.done ? "note-done" : ""}"><div class="note-heading"><label class="note-check"><input type="checkbox" data-toggle-note="${note.id}" ${note.done ? "checked" : ""}><span></span><b>${escapeHtml(note.title)}</b></label><button data-delete-note="${note.id}" aria-label="Ta bort anteckning">×</button></div><p>${escapeHtml(note.text)}</p></article>`).join("");
 }
 
 [$("#file"), $("#file2")].forEach((input) => input?.addEventListener("change", async (event) => {
@@ -201,6 +202,12 @@ document.addEventListener("click", (event) => {
   if (add) { $("#eventDate").value = add.dataset.addEvent; $("#eventDialog").showModal(); }
   const deleteEvent = event.target.closest("[data-delete-event]");
   if (deleteEvent) { events = events.filter((item) => String(item.id) !== deleteEvent.dataset.deleteEvent); save("teacher-events", events); renderWeek(); }
+  const toggleNote = event.target.closest("[data-toggle-note]");
+  if (toggleNote) {
+    notes = notes.map((item) => String(item.id) === toggleNote.dataset.toggleNote ? { ...item, done: toggleNote.checked } : item);
+    save("teacher-notes", notes);
+    renderNotes();
+  }
   const deleteNote = event.target.closest("[data-delete-note]");
   if (deleteNote) { notes = notes.filter((item) => String(item.id) !== deleteNote.dataset.deleteNote); save("teacher-notes", notes); renderNotes(); }
   if (event.target.matches("[data-close]")) event.target.closest("dialog").close();
@@ -219,12 +226,26 @@ $("#eventForm").onsubmit = (event) => {
 $("#noteForm").onsubmit = (event) => {
   event.preventDefault();
   const form = new FormData(event.target);
-  notes.unshift({ id: Date.now(), title: form.get("title"), text: form.get("text") });
+  notes.unshift({ id: Date.now(), title: form.get("title"), text: form.get("text"), done: false });
   save("teacher-notes", notes);
   event.target.reset();
   $("#noteDialog").close();
   renderNotes();
 };
+
+
+const noteStyles = document.createElement("style");
+noteStyles.textContent = `
+.note-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:6px}
+.note-check{min-width:0;display:flex;align-items:flex-start;gap:6px;cursor:pointer}
+.note-check input{position:absolute;opacity:0;pointer-events:none}
+.note-check span{width:14px;height:14px;flex:0 0 14px;margin-top:-1px;border:1.5px solid #94a3b8;border-radius:4px;background:#fff;position:relative}
+.note-check input:checked+span{border-color:#16a34a;background:#16a34a}
+.note-check input:checked+span:after{content:"";position:absolute;left:3px;top:0px;width:4px;height:8px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.note-done{opacity:.58;filter:saturate(.45)}
+.note-done b,.note-done p{text-decoration:line-through}
+`;
+document.head.appendChild(noteStyles);
 
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", async () => {
