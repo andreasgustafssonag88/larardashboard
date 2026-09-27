@@ -1,11 +1,12 @@
 {
-  "name": "Min kompakta lärardashboard",
+  "name": "Min nya lärardashboard",
   "short_name": "Lärardashboard",
+  "description": "Schema, datum, klocka och öppningsbara anteckningsblock.",
   "lang": "sv-SE",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#edf1f7",
+  "background_color": "#edf2f8",
   "theme_color": "#0f172a",
   "icons": [
     {
