@@ -1,7 +1,6 @@
 {
-  "name": "Min nya lärardashboard",
+  "name": "Min lärardashboard",
   "short_name": "Lärardashboard",
-  "description": "Schema, datum, klocka och öppningsbara anteckningsblock.",
   "lang": "sv-SE",
   "start_url": "./",
   "scope": "./",

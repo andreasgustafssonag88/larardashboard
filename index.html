@@ -1,76 +1,9 @@
-<!doctype html>
-<html lang="sv">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#0f172a">
-  <meta name="description" content="Lärardashboard med schema, datum, klocka och öppningsbara anteckningsblock.">
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" href="icons/icon-192.png">
-  <link rel="apple-touch-icon" href="icons/icon-192.png">
-  <link rel="stylesheet" href="styles.css">
-  <title>Min lärardashboard</title>
-</head>
-<body>
-  <main class="dashboard">
-    <header class="topbar">
-      <div class="topbar-orb"></div>
-      <div class="brand">
-        <span>MIN LÄRARDASHBOARD</span>
-        <div class="date-row"><strong id="weekday">Måndag</strong><small id="dateText"></small></div>
-      </div>
-      <div class="clock"><span class="clock-icon">◷</span><strong id="timeText">00:00</strong><small id="secondsText">00</small></div>
-    </header>
-
-    <section class="schedule panel">
-      <div class="panel-head">
-        <h2><span class="head-icon indigo">▧</span>Mitt schema</h2>
-        <label class="secondary-button">⇧ <span id="uploadText">Ladda upp</span><input id="scheduleFile" type="file" accept="image/*" hidden></label>
-      </div>
-      <div class="schedule-body">
-        <label id="scheduleEmpty" class="schedule-empty">
-          <span>▧</span><strong>Lägg in din schemabild</strong><small>Välj ett foto eller en skärmbild</small>
-          <input id="scheduleFileEmpty" type="file" accept="image/*" hidden>
-        </label>
-        <div id="schedulePreview" class="schedule-preview hidden">
-          <img id="scheduleImage" alt="Mitt schema">
-          <button id="removeSchedule" class="remove-image" aria-label="Ta bort schemabild">×</button>
-        </div>
-      </div>
-    </section>
-
-    <section class="boards panel">
-      <div class="panel-head boards-head">
-        <div class="boards-title"><span class="head-icon amber">☑</span><div><h2>Mina anteckningsblock</h2><small id="progressText">0 av 0 punkter färdiga</small></div></div>
-        <button id="newBoardButton" class="primary-button">＋ Nytt block</button>
-      </div>
-      <div id="boardList" class="board-list"></div>
-    </section>
-  </main>
-
-  <dialog id="boardDialog" class="dialog">
-    <form id="boardForm">
-      <div class="dialog-head"><h3>Nytt anteckningsblock</h3><button type="button" data-close="boardDialog">×</button></div>
-      <label>Namn på blocket<input name="title" required placeholder="Exempel: Schema jobb"></label>
-      <fieldset><legend>Färg</legend><div class="color-picker">
-        <label><input type="radio" name="color" value="indigo" checked><span class="color indigo-bg"></span></label>
-        <label><input type="radio" name="color" value="amber"><span class="color amber-bg"></span></label>
-        <label><input type="radio" name="color" value="emerald"><span class="color emerald-bg"></span></label>
-        <label><input type="radio" name="color" value="sky"><span class="color sky-bg"></span></label>
-        <label><input type="radio" name="color" value="rose"><span class="color rose-bg"></span></label>
-      </div></fieldset>
-      <button class="submit-button">Skapa block</button>
-    </form>
-  </dialog>
-
-  <dialog id="itemDialog" class="dialog">
-    <form id="itemForm">
-      <div class="dialog-head"><h3>Ny punkt</h3><button type="button" data-close="itemDialog">×</button></div>
-      <label>Vad behöver göras?<input name="text" required placeholder="Exempel: Ändra Andreas schema"></label>
-      <button class="submit-button">Lägg till punkt</button>
-    </form>
-  </dialog>
-
-  <script src="app.js" defer></script>
-</body>
-</html>
+<!doctype html><html lang="sv"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0f172a"><meta name="description" content="Lärardashboard med schema, zoom, checklistor och textanteckningar."><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icons/icon-192.png"><link rel="apple-touch-icon" href="icons/icon-192.png"><link rel="stylesheet" href="styles.css"><title>Min lärardashboard</title></head><body>
+<main class="dashboard"><header><div><small>MIN LÄRARDASHBOARD</small><div class="date"><b id="weekday"></b><span id="date"></span></div></div><div class="clock">◷ <b id="time"></b></div></header>
+<section class="schedule panel"><div class="head"><h2>▧ Mitt schema</h2><label class="secondary">⇧ <span id="uploadLabel">Ladda upp</span><input id="file" type="file" accept="image/*" hidden></label></div><div class="scheduleBody"><label id="empty" class="empty">▧<b>Lägg in din schemabild</b><span>Välj ett foto eller en skärmbild</span><input id="file2" type="file" accept="image/*" hidden></label><div id="preview" class="preview hidden"><div id="viewport"><img id="scheduleImage" draggable="false"></div><div class="zoom"><button id="zoomOut">−</button><b id="zoomText">100%</b><button id="zoomIn">＋</button><button id="zoomReset">↻</button></div><button id="removeImage" class="remove">×</button></div></div></section>
+<section class="cards panel"><div class="head"><div><h2>☑ Mina block och anteckningar</h2><small id="progress"></small></div><button id="newButton" class="primary">＋ Nytt</button></div><div id="cardList" class="cardList"></div></section></main>
+<dialog id="chooseDialog"><form><div class="dialogHead"><h3>Vad vill du skapa?</h3><button type="button" data-close="chooseDialog">×</button></div><div class="choices"><button type="button" data-type="checklist">☑<b>Block med punkter</b><span>En checklista där punkter kan bockas av.</span></button><button type="button" data-type="note">▤<b>Textanteckning</b><span>En anteckning med rubrik och fri text.</span></button></div></form></dialog>
+<dialog id="createDialog"><form id="createForm"><div class="dialogHead"><h3 id="createTitle"></h3><button type="button" data-close="createDialog">×</button></div><label>Rubrik<input name="title" required></label><label id="noteTextWrap">Text<textarea name="text" placeholder="Skriv din anteckning här..."></textarea></label><fieldset><legend>Färg</legend><div class="colors"><label><input type="radio" name="color" value="indigo" checked><i class="indigo"></i></label><label><input type="radio" name="color" value="amber"><i class="amber"></i></label><label><input type="radio" name="color" value="emerald"><i class="emerald"></i></label><label><input type="radio" name="color" value="sky"><i class="sky"></i></label><label><input type="radio" name="color" value="rose"><i class="rose"></i></label></div></fieldset><button class="submit">Skapa</button></form></dialog>
+<dialog id="itemDialog"><form id="itemForm"><div class="dialogHead"><h3>Ny punkt</h3><button type="button" data-close="itemDialog">×</button></div><label>Vad behöver göras?<input name="text" required placeholder="Exempel: Ändra Andreas schema"></label><button class="submit">Lägg till punkt</button></form></dialog>
+<dialog id="editDialog"><form id="editForm"><div class="dialogHead"><h3>Redigera anteckning</h3><button type="button" data-close="editDialog">×</button></div><label>Rubrik<input id="editTitle" name="title" required></label><label>Text<textarea id="editText" name="text"></textarea></label><button class="submit">Spara ändringar</button></form></dialog>
+<script src="app.js" defer></script></body></html>

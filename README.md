@@ -1,24 +1,19 @@
-# Min nya lärardashboard
+# Min lärardashboard
 
-En installerbar webbapp med schemabild, dagens datum, digital klocka och öppningsbara anteckningsblock med checklistor.
+Denna version innehåller:
 
-## Publicera på GitHub Pages
+- schemabild med zoom 100 till 400 procent
+- möjlighet att dra den inzoomade bilden
+- dagens datum och digital klocka
+- checklistblock med avbockningsbara punkter
+- textanteckningar med rubrik och fri text
+- redigering, öppning, stängning och borttagning
+- lokal lagring och offline-stöd
 
-1. Packa upp ZIP-filen.
-2. Ladda upp **innehållet** i mappen till roten av ditt GitHub-repository.
-3. Kontrollera att `index.html` ligger direkt i repositoryts rot.
-4. Gå till **Settings > Pages**.
-5. Välj **Deploy from a branch**, grenen **main** och mappen **/(root)**.
-6. Spara och vänta tills GitHub Pages publicerat sidan.
+## Uppdatera GitHub Pages
 
-## Uppdatera den tidigare dashboarden
-
-Du kan ladda upp dessa filer till samma repository och ersätta de befintliga filerna. Den gamla kalendern försvinner då och ersätts av den nya dashboarden. Gamla kalenderuppgifter används inte av den nya versionen.
+Packa upp ZIP-filen och ladda upp allt innehåll i mappen till roten av repositoryt `larardashboard`. Ersätt befintliga filer och klicka på Commit changes. Vänta på publicering och ladda sedan om sidan med Ctrl+F5.
 
 ## Installera som app
 
-Öppna webbadressen i Microsoft Edge och välj **... > Appar > Installera den här webbplatsen som en app**.
-
-## Lagring
-
-Anteckningsblock och checklistor sparas lokalt i webbläsaren. Schemabilden sparas i IndexedDB. Informationen finns kvar när fönstret stängs men synkroniseras inte automatiskt mellan enheter. Undvik känsliga elevuppgifter.
+Öppna den publicerade sidan i Microsoft Edge och välj Appar > Installera den här webbplatsen som en app.
